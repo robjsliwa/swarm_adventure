@@ -1,0 +1,28 @@
+characters:
+  - name: "Aric the Brave"
+    role: "player"
+    stats:
+      strength: 10
+      intelligence: 8
+    tools: 
+      - "sword"
+      - "shield"
+  - name: "Gorak the Orc"
+    role: "npc"
+    stats:
+      strength: 12
+      intelligence: 4
+    tools: 
+      - "club"
+    dialogues:
+      - "Gorak: I will crush you!"
+      - "Gorak: You won't survive this day!"
+
+story_events:
+  - id: 1
+    description: "The party encounters a fierce orc."
+    main_agent: "Aric the Brave"
+    npc_agents: ["Gorak the Orc"]
+    actions:
+      - "Attack"
+      - "Defend"
