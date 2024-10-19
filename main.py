@@ -23,8 +23,10 @@ system_message = (
     "fantasy genre. The story should have a clear beginning, middle, and end. Use current location description to "
     "set the scene. "
     "2. Allow NPCs to speak and/or take actions. "
-    "3. After story description allow the players to interact with the story. Player can only move in the available "
-    "directions. Use available directions to show the player where they can move. "
+    "3. After story description allow the players to interact with the story.  Use available directions to show the player where they can move. "
+    "4. If the user moves in the available directions call the move player in that the direction.  It is important to "
+    "move player to update current location.  If the user "
+    "selected direction that is not available, inform the user they cannot move there. "
 )
 
 
@@ -74,7 +76,7 @@ player_location = "The Dark Forest"
 
 
 def move_player(direction):
-    print("In move_player")
+    print("In move_player: ", direction)
     global player_location
     for connection in connections:
         if (
@@ -82,8 +84,9 @@ def move_player(direction):
             and connection["direction"] == direction
         ):
             player_location = connection["destination"]
-            return True
-    return False
+            print("Player location: ", player_location)
+            return direction
+    return "You cannot go that way."
 
 
 def current_location_description():
@@ -173,7 +176,12 @@ def execute_tool_call(tool_call, tools_map):
     args = json.loads(tool_call.function.arguments)
 
     print(f"Assistant: {name}({args})")
-    return tools_map[name](**args)
+    result = tools_map[name](**args)
+
+    if isinstance(result, list):
+        result = ', '.join(result)
+
+    return result
 
 
 def run_full_turn(system_message, tools, messages):
@@ -184,15 +192,11 @@ def run_full_turn(system_message, tools, messages):
         tool_schemas = [function_to_schema(tool) for tool in tools]
         tools_map = {tool.__name__: tool for tool in tools}
 
-        print("MESSAGES:", messages)
-        if len(messages) > 4:
-            print("MSG 4", messages[4].content[0])
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[{"role": "system", "content": system_message}] + messages,
             tools=tool_schemas or None,
         )
-        print("RESPONSE:", response)
         message = response.choices[0].message
         messages.append(message)
 
@@ -212,7 +216,7 @@ def run_full_turn(system_message, tools, messages):
             }
             messages.append(result_message)
 
-    return message[num_init_messages:]
+    return messages[num_init_messages:]
 
 
 def main():
