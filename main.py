@@ -21,8 +21,7 @@ system_message = (
     "1. Describe the setting, the characters, and the plot. The story should be engaging and fun and based on the "
     "fantasy genre. The story should have a clear beginning, middle, and end. Use current location description to "
     "set the scene. "
-    "2. If there is a NPC in the current location allow player to interact with NPC. Hand off to the respective NPC agent "
-    "when the player starts a conversation with the NPC. "
+    "2. If there is a NPC in the current location allow player to interact with NPC. If the player greets NPC transfer to the respective NPC agent. "
     "3. After story description allow the players to interact with the story.  Use available directions to show the player where they can move. "
     "4. If the user moves in the available directions call the move player in that the direction.  It is important to "
     "move player to update current location.  If the user "
@@ -296,7 +295,7 @@ def main():
         user = input("User: ")
         messages.append({"role": "user", "content": user})
 
-        current_agent = check_for_npc(player_location)
+        # current_agent = check_for_npc(player_location)
 
         current_agent, new_messages = run_full_turn(current_agent, messages)
         messages.extend(new_messages)
