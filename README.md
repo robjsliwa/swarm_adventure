@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a companion repo for my article [Tales from the Swarm: Crafting an Adventure Game using the OpenAI Swarm Library](). This project demonstrates how to build a text-based adventure game using the OpenAI Swarm library, which is a lightweight multi-agent orchestration framework. The game features a main story agent driving the narration and interactions, along with NPC agents that handle dialogues and actions.
+This is a companion repo for my article [Tales from the Swarm: Crafting an Adventure Game using the OpenAI Swarm Library](https://medium.com/@robjsliwa_71070/tales-from-the-swarm-crafting-an-adventure-game-using-the-openai-swarm-library-2bee8fb9cfaa). This project demonstrates how to build a text-based adventure game using the OpenAI Swarm library, which is a lightweight multi-agent orchestration framework. The game features a main story agent driving the narration and interactions, along with NPC agents that handle dialogues and actions.
 
 The game allows players to explore a world of three locations, interact with NPCs like a weapon smith and armorer, and move between locations, all while leveraging the Swarm library’s `routines` and `handoffs` concepts.
 
