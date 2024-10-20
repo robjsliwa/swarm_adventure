@@ -84,7 +84,7 @@ class Agent(BaseModel):
 
 # Main Story Agent
 def move_player(direction):
-    print("In move_player: ", direction)
+    # print("In move_player: ", direction)
     global player_location
     for connection in connections:
         if (
@@ -98,7 +98,7 @@ def move_player(direction):
 
 
 def current_location_description():
-    print("In current_location_description")
+    # print("In current_location_description")
     for location in locations:
         if location["name"] == player_location:
             loc_description = location["description"]
@@ -110,7 +110,7 @@ def current_location_description():
 
 
 def available_directions():
-    print("In available_directions")
+    # print("In available_directions")
     directions = []
     for connection in connections:
         if connection["location"] == player_location:
@@ -156,7 +156,7 @@ def list_armorer_inventory():
 
 armorer_agent = Agent(
     name="Armorer",
-    instructions="You are the Armorer. Great the player and answer any questions.  If they want to know what you sell get the list from your invertory.  When player says goodbye hand off to the main story agent.",
+    instructions="You are the Armorer. Great the player and answer any questions.  If they want to know what you sell get the list from your invertory.  Only when player says goodbye transfer to the main story agent.",
     tools=[list_armorer_inventory, transfer_back_to_main],
 )
 
@@ -171,7 +171,7 @@ def list_weapon_smith_inventory():
 
 weapon_smith_agent = Agent(
     name="Weapon Smith",
-    instructions="You are the Weapon Smith. Great the player and answer any questions.  If they want to know what you sell get the list from your invertory.  When player says goodbye hand off to the main story agent.",
+    instructions="You are the Weapon Smith. Great the player and answer any questions.  If they want to know what you sell get the list from your invertory.  Only when player says goodbye transfer to the main story agent.",
     tools=[list_weapon_smith_inventory, transfer_back_to_main],
 )
 
@@ -237,7 +237,7 @@ def execute_tool_call(tool_call, tools_map, agent_name):
     name = tool_call.function.name
     args = json.loads(tool_call.function.arguments)
 
-    print(f"{agent_name}: {name}({args})")
+    # print(f"{agent_name}: {name}({args})")
 
     return tools_map[name](**args)
 
@@ -295,13 +295,8 @@ def main():
         user = input("User: ")
         messages.append({"role": "user", "content": user})
 
-        # current_agent = check_for_npc(player_location)
-
         current_agent, new_messages = run_full_turn(current_agent, messages)
         messages.extend(new_messages)
-
-        if current_agent != main_story_agent:
-            current_agent = transfer_back_to_main()
 
 
 if __name__ == "__main__":
